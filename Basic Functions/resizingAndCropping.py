@@ -15,7 +15,7 @@ cv2.imshow("Original image", img)
 # Change the dimensions
 imgResized = cv2.resize(img, (600,350))
 
-# Crop the image
+# Crop the image ( [:] stands for [0:350, 0:600], the whole image)
 imgCropped = imgResized[:]
 
 # Show image (post previous operations)
