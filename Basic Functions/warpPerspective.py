@@ -4,7 +4,7 @@ import numpy as np
 img = cv2.imread("Resources/placa.webp")
 cv2.imwrite("Resources/placa.png", img)
 
-width,height = 400,250
+width,height = 350,250
 pts1 = np.float32([[212,73],[522,7],[208,281],[497,327]])
 pts2 = np.float32([[0,0],[width,0],[0,height],[width,height]])
 matrix = cv2.getPerspectiveTransform(pts1,pts2)

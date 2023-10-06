@@ -1,8 +1,6 @@
 import cv2
 import numpy as np
 
-from resizingAndCropping import imgCropped
-
 # imgHor = np.hstack((img,img))
 # imgVer = np.vstack((img,img))
 #
@@ -40,9 +38,10 @@ def stackImages(scale,imgArray):
         ver = hor
     return ver
 
+img = cv2.imread("Resources/gatin.png")
 
-imgStack = stackImages(0.5,([imgCropped,imgCropped,imgCropped],[imgCropped,imgCropped,imgCropped],[imgCropped,imgCropped,imgCropped],[imgCropped,imgCropped,imgCropped]))
+imgStack = stackImages(0.2,([img,img,img],[img,img,img],[img,img,img],[img,img,img]))
 
 cv2.imshow("ImageStack",imgStack)
 
-cv2.waitKey(0)
+cv2.waitKey(0)  

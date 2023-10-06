@@ -23,5 +23,7 @@ cv2.imshow("Image size adjusted", imgCropped)
 
 print(imgCropped.shape)
 
+cv2.imwrite("Resources/gatinAdjusted.png", imgCropped)
+
 # Time for image display, in milliseconds
 cv2.waitKey(0)
