@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+# Images stacking function
 def stackImages(scale,imgArray):
     rows = len(imgArray)
     cols = len(imgArray[0])
@@ -32,30 +33,48 @@ def stackImages(scale,imgArray):
         ver = hor
     return ver
 
+# Get contours function
 def getContours(img):
+
+    # Finding image countours, with mode RETR_TREE mode (which builds a hierarchy of contours, including external and internal) 
+    # and without any object simplification
     contours,hierarchy = cv2.findContours(img,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+
+    # Loop to get the area of each object
     for cnt in contours:
         area = cv2.contourArea(cnt)
         print(area)
+
+        # We cosider only objects with an area greater than 500 as relevant
         if area>500:
+
+            # Draw countours in the image for all the objects
             cv2.drawContours(imgContour, cnt, -1, (255, 0, 0), 3)
+
+            # Calculate the perimetre of each object
             peri = cv2.arcLength(cnt,True)
             #print(peri)
+            # Approximate corner points
             approx = cv2.approxPolyDP(cnt,0.02*peri,True)
             print(len(approx))
+
+            # Define the object contour, based on approximated corner points
             objCor = len(approx)
+
+            # Define x, y, width and height of the objects
             x, y, w, h = cv2.boundingRect(approx)
 
-            if objCor ==3: objectType ="Tri"
+            # Classify the object based on the number of corners
+            if objCor ==3: objectType ="Triangle"
             elif objCor == 4:
                 aspRatio = w/float(h)
                 if aspRatio >0.98 and aspRatio <1.03: objectType= "Square"
                 else:objectType="Rectangle"
-            elif objCor>4: objectType= "Circles"
+            elif objCor>4: objectType= "Circle"
             else:objectType="None"
 
 
-
+            # Implement on the image the boxes and classifications
             cv2.rectangle(imgContour,(x,y),(x+w,y+h),(0,255,0),2)
             cv2.putText(imgContour,objectType,
                         (x+(w//2)-10,y+(h//2)-10),cv2.FONT_HERSHEY_COMPLEX,0.7,
