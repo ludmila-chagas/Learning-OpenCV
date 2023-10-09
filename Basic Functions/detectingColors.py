@@ -52,8 +52,10 @@ cv2.createTrackbar("Val Max","TrackBars",255,255,empty)
 # Start of the loop that make possible to apply in real time trackbar changes in HSV
 while True:
     img = cv2.imread(path)
+
     # Converting color from RGB to HSV (Hue, Saturation, and Value/Brightness)
     imgHSV = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+
     # Assigning HSV values based on trackbar positions
     h_min = cv2.getTrackbarPos("Hue Min","TrackBars")
     h_max = cv2.getTrackbarPos("Hue Max", "TrackBars")
@@ -61,19 +63,22 @@ while True:
     s_max = cv2.getTrackbarPos("Sat Max", "TrackBars")
     v_min = cv2.getTrackbarPos("Val Min", "TrackBars")
     v_max = cv2.getTrackbarPos("Val Max", "TrackBars")
+
     # Diplay of trackbar created
     print(h_min,h_max,s_min,s_max,v_min,v_max)
+
     # Lower and upper scale definition
     lower = np.array([h_min,s_min,v_min])
     upper = np.array([h_max,s_max,v_max])
     mask = cv2.inRange(imgHSV,lower,upper)
+    
     # Applying a mask to the original image, creating a new one, based on the active and inactive pixels of the mask
     imgResult = cv2.bitwise_and(img,img,mask=mask)
 
-    cv2.imshow("Original",img)
-    cv2.imshow("HSV",imgHSV)
-    cv2.imshow("Mask", mask)
-    cv2.imshow("Result", imgResult)
+    # cv2.imshow("Original",img)
+    # cv2.imshow("HSV",imgHSV)
+    # cv2.imshow("Mask", mask)
+    # cv2.imshow("Result", imgResult)
 
     # Stacking the results together: original image, HSV, mask, and the new one
     imgStack = stackImages(0.6,([img,imgHSV],[mask,imgResult]))
